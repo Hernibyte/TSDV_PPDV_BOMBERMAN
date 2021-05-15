@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    CharacterController controller;
     [SerializeField] float movementVelocity;
     float xAxis;
     float zAxis;
     float smooth;
     Vector3 newPosition;
+
+    void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
     void Update()
     {
@@ -26,11 +32,11 @@ public class PlayerMovement : MonoBehaviour
     void UpdateNewPosition()
     {
         smooth = Time.deltaTime * movementVelocity;
-        newPosition = new Vector3(xAxis * smooth, 0f, zAxis * smooth);
+        newPosition =  transform.right * xAxis + transform.forward * zAxis;
     }
 
         void PlayerMove()
     {
-        transform.Translate(newPosition);
+        controller.Move(newPosition * smooth);
     }
 }
